@@ -2,27 +2,33 @@ import React, { useEffect, useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, StatusBar, ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '../theme/useTheme';
 import { Typography, Spacing } from '../theme/tokens';
 import { getVerseById, getPrimaryTranslation } from '../db/queries';
+import { SPEAKER_IMAGES, SPEAKER_LABELS } from '../theme/speakers';
 import type { Verse } from '../db/schema';
 import type { RootStackParamList } from '../navigation/types';
 
 type Nav   = NativeStackNavigationProp<RootStackParamList, 'VerseDetail'>;
 type Route = RouteProp<RootStackParamList, 'VerseDetail'>;
 
+const SPEAKER_IMAGE_HEIGHT = 260;
+
 export function VerseDetailScreen() {
   const colors = useTheme();
-  const nav = useNavigation<Nav>();
+  const nav    = useNavigation<Nav>();
   const { params } = useRoute<Route>();
-  const [verse, setVerse] = useState<Verse | null>(null);
-  const [translation, setTranslation] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const chapterNumber = parseInt(params.chapterId.replace('ch_', ''), 10);
+
+  const [verse, setVerse]             = useState<Verse | null>(null);
+  const [translation, setTranslation] = useState<string | null>(null);
+  const [loading, setLoading]         = useState(true);
 
   useEffect(() => {
     async function load() {
@@ -52,35 +58,56 @@ export function VerseDetailScreen() {
     );
   }
 
+  const speakerKey   = verse.speaker ?? 'krishna';
+  const speakerImage = SPEAKER_IMAGES[speakerKey];
+  const speakerLabel = SPEAKER_LABELS[speakerKey] ?? speakerKey;
+
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
-      <StatusBar
-        barStyle={colors.background === '#FAFAF7' ? 'dark-content' : 'light-content'}
-        backgroundColor={colors.background}
-      />
-      <View style={[styles.topBar, { borderBottomColor: colors.border }]}>
-        <TouchableOpacity onPress={() => nav.goBack()} activeOpacity={0.6}>
-          <Text style={[styles.back, { color: colors.accent }]}>←</Text>
-        </TouchableOpacity>
-        <Text style={[styles.verseLabel, { color: colors.muted }]}>
-          {chapterNumber}.{params.verseNumber}
-        </Text>
-        <TouchableOpacity
-          onPress={() =>
-            nav.navigate('Commentary', {
-              verseId:       params.verseId,
-              chapterNumber: chapterNumber,
-              verseNumber:   params.verseNumber,
-            })
-          }
-          activeOpacity={0.6}
-        >
-          <Text style={[styles.commentaryLink, { color: colors.accent }]}>Commentary</Text>
-        </TouchableOpacity>
-      </View>
+      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+
+      <ImageBackground
+        source={speakerImage}
+        style={styles.speakerImage}
+        resizeMode="cover"
+      >
+        {/* Dark at top → transparent at bottom so image bleeds into content */}
+        <LinearGradient
+          colors={['rgba(10,8,5,0.82)', 'rgba(10,8,5,0.3)', 'transparent']}
+          locations={[0, 0.45, 1]}
+          style={StyleSheet.absoluteFill}
+        />
+
+        {/* Header: back | verse number | Commentary */}
+        <View style={styles.topBar}>
+          <TouchableOpacity onPress={() => nav.goBack()} activeOpacity={0.6}>
+            <Text style={styles.back}>←</Text>
+          </TouchableOpacity>
+          <Text style={styles.verseLabel}>
+            {chapterNumber}.{params.verseNumber}
+          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              nav.navigate('Commentary', {
+                verseId:       params.verseId,
+                chapterNumber: chapterNumber,
+                verseNumber:   params.verseNumber,
+              })
+            }
+            activeOpacity={0.6}
+          >
+            <Text style={styles.commentaryLink}>Commentary</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Speaker name at bottom-left of image */}
+        <View style={styles.speakerLabelContainer}>
+          <Text style={styles.speakerName}>{speakerLabel}</Text>
+        </View>
+      </ImageBackground>
 
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { backgroundColor: colors.background }]}
         showsVerticalScrollIndicator={false}
       >
         <Text style={[styles.sanskrit, { color: colors.text }]}>
@@ -105,26 +132,43 @@ export function VerseDetailScreen() {
 const styles = StyleSheet.create({
   root:   { flex: 1 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+
+  speakerImage: {
+    width: '100%',
+    height: SPEAKER_IMAGE_HEIGHT,
+    justifyContent: 'space-between',
+  },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: Spacing.screenMargin,
     paddingTop: 52,
-    paddingBottom: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingBottom: 8,
   },
-  back:            { ...Typography.chapterTitle, fontSize: 22 },
-  verseLabel:      { ...Typography.ui, fontSize: 13 },
-  commentaryLink:  { ...Typography.ui, fontSize: 13 },
+  back:           { ...Typography.chapterTitle, fontSize: 22, color: '#FAFAF7' },
+  verseLabel:     { ...Typography.ui, fontSize: 13, color: 'rgba(250,250,247,0.6)' },
+  commentaryLink: { ...Typography.ui, fontSize: 13, color: '#D4A843' },
+  speakerLabelContainer: {
+    paddingHorizontal: Spacing.screenMargin,
+    paddingBottom: 16,
+  },
+  speakerName: {
+    ...Typography.ui,
+    fontSize: 11,
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+    color: 'rgba(250,250,247,0.5)',
+  },
+
   scroll: {
     paddingHorizontal: Spacing.screenMargin,
-    paddingTop: 32,
+    paddingTop: 28,
     paddingBottom: 64,
     gap: 24,
   },
   sanskrit:    { ...Typography.sanskrit },
   romanized:   { ...Typography.romanized },
-  divider:     { height: 1, marginVertical: 8 },
+  divider:     { height: 1, marginVertical: 4 },
   translation: { ...Typography.translation },
 });
