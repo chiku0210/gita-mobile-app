@@ -22,6 +22,7 @@ export function VerseDetailScreen() {
   const [verse, setVerse] = useState<Verse | null>(null);
   const [translation, setTranslation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const chapterNumber = parseInt(params.chapterId.replace('ch_', ''), 10);
 
   useEffect(() => {
     async function load() {
@@ -62,13 +63,13 @@ export function VerseDetailScreen() {
           <Text style={[styles.back, { color: colors.accent }]}>←</Text>
         </TouchableOpacity>
         <Text style={[styles.verseLabel, { color: colors.muted }]}>
-          {params.chapterNumber}.{params.verseNumber}
+          {chapterNumber}.{params.verseNumber}
         </Text>
         <TouchableOpacity
           onPress={() =>
             nav.navigate('Commentary', {
               verseId:       params.verseId,
-              chapterNumber: params.chapterNumber,
+              chapterNumber: chapterNumber,
               verseNumber:   params.verseNumber,
             })
           }

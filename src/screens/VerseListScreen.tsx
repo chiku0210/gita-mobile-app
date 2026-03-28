@@ -85,7 +85,7 @@ export function VerseListScreen() {
               {params.chapterNumber}.{item.verse_number}
             </Text>
             <Text style={[styles.preview, { color: colors.muted }]} numberOfLines={2}>
-              {item.preview ?? item.text_romanized ?? ''}
+              {item.text_sanskrit ?? ''}
             </Text>
           </TouchableOpacity>
         )}
