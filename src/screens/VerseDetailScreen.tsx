@@ -13,7 +13,7 @@ import { StackActions, CommonActions } from '@react-navigation/native';
 
 import { useTheme } from '../theme/useTheme';
 import { Typography, Spacing } from '../theme/tokens';
-import { getVerseById, getPrimaryTranslation } from '../db/queries';
+import { getVerseById, getGitaPressTranslation, getPrimaryTranslation } from '../db/queries';
 import { getSpeakerImage, SPEAKER_LABELS } from '../theme/speakers';
 import type { Verse } from '../db/schema';
 import type { RootStackParamList } from '../navigation/types';
@@ -76,12 +76,20 @@ export function VerseDetailScreen() {
     swipeLocked.current = false;
 
     async function load() {
-      const [v, t] = await Promise.all([
+      const [v, gitaPressTranslation] = await Promise.all([
         getVerseById(params.verseId),
-        getPrimaryTranslation(params.verseId),
+        getGitaPressTranslation(params.verseId),
       ]);
       setVerse(v);
-      setTranslation(t);
+
+      if (gitaPressTranslation) {
+        // Primary source: Gita Press translation seeded from OCR
+        setTranslation(gitaPressTranslation);
+      } else {
+        // Fallback: API-sourced translation from the translations table
+        const fallback = await getPrimaryTranslation(params.verseId);
+        setTranslation(fallback);
+      }
     }
     load().finally(() => setLoading(false));
   }, [params.verseId]);

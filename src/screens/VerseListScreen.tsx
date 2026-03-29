@@ -8,32 +8,24 @@ import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '../theme/useTheme';
 import { Typography, Spacing } from '../theme/tokens';
-import { getVersesByChapter, getPrimaryTranslation } from '../db/queries';
+import { getVersesByChapter } from '../db/queries';
 import type { Verse } from '../db/schema';
 import type { RootStackParamList } from '../navigation/types';
 
 type Nav   = NativeStackNavigationProp<RootStackParamList, 'VerseList'>;
 type Route = RouteProp<RootStackParamList, 'VerseList'>;
 
-type VerseRow = Verse & { preview: string | null };
-
 export function VerseListScreen() {
   const colors = useTheme();
   const nav = useNavigation<Nav>();
   const { params } = useRoute<Route>();
-  const [rows, setRows] = useState<VerseRow[]>([]);
+  const [rows, setRows] = useState<Verse[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       const verseList = await getVersesByChapter(params.chapterId);
-      const withPreviews = await Promise.all(
-        verseList.map(async (v) => ({
-          ...v,
-          preview: await getPrimaryTranslation(v.id),
-        }))
-      );
-      setRows(withPreviews);
+      setRows(verseList);
     }
     load().finally(() => setLoading(false));
   }, [params.chapterId]);
@@ -86,7 +78,7 @@ export function VerseListScreen() {
             <Text style={[styles.num, { color: colors.accent }]}>
               {params.chapterNumber}.{item.verse_number}
             </Text>
-            <Text style={[styles.preview, { color: colors.muted }]} numberOfLines={2}>
+            <Text style={[styles.sanskrit, { color: colors.muted }]} numberOfLines={2}>
               {item.text_sanskrit ?? ''}
             </Text>
           </TouchableOpacity>
@@ -134,5 +126,5 @@ const styles = StyleSheet.create({
     minHeight: 72,
   },
   num:     { ...Typography.ui, width: 40, paddingTop: 2 },
-  preview: { ...Typography.translation, fontSize: 14, lineHeight: 20, flex: 1 },
+  sanskrit: { ...Typography.translation, fontSize: 14, lineHeight: 20, flex: 1 },
 });
