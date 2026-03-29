@@ -2,7 +2,7 @@
   "meta": {
     "source": "Gita Press English Translation",
     "parser": "ascii-ratio-heuristic",
-    "totalVerses": 667,
+    "totalVerses": 668,
     "byChapter": {
       "1": 36,
       "2": 70,
@@ -16,7 +16,7 @@
       "10": 40,
       "11": 52,
       "12": 16,
-      "13": 34,
+      "13": 35,
       "14": 27,
       "15": 20,
       "16": 23,
@@ -3014,7 +3014,7 @@
       "chapter": 11,
       "verse": 35,
       "verseEnd": null,
-      "speaker": "Sri Bhagavan said",
+      "speaker": null,
       "text": "Hearing these words of Bhagavn Keshava, Arjuna tremblingly bowed to Him with joined palms, and bowing again in extreme terror spoke to Sri Krishna in faltering accents."
     },
     {
@@ -3266,236 +3266,243 @@
       "chapter": 13,
       "verse": 1,
       "verseEnd": null,
-      "speaker": "Sri Bhagavan said",
-      "text": "This body, Arjuna is termed as the Field (Kshetra) and he who knows it, is called the knower of the Field (Kshetrajna) by the sages discerning the truth about both."
+      "speaker": "Arjuna said",
+      "text": "My Lord! Who is God and what is Nature; what is Matter and what is the Self; what is that they call Wisdom, and what is it that is worth knowing? I wish to have this explained."
     },
     {
       "chapter": 13,
       "verse": 2,
       "verseEnd": null,
-      "speaker": null,
-      "text": "Know Myself to be the Kshetrajna (individual soul) in all the Kshetras (fields), Arjuna. And it is the knowledge of the field (Kshetra) and knower (Kshetrajna) (i.e., of Matter with its evolutes and the Spirit) which I consider as true knowledge."
+      "speaker": "Sri Bhagavan said",
+      "text": "This body, Arjuna is termed as the Field (Kshetra) and he who knows it, is called the knower of the Field (Kshetrajna) by the sages discerning the truth about both."
     },
     {
       "chapter": 13,
       "verse": 3,
       "verseEnd": null,
       "speaker": null,
-      "text": "What that Field (Kshetra) is and what is its nature, what are its modifications, and from what causes what effects have arisen, and also who its knower (Kshetrajna) is, and what is His glory-hear all this from Me in brief."
+      "text": "Know Myself to be the Kshetrajna (individual soul) in all the Kshetras (fields), Arjuna. And it is the knowledge of the field (Kshetra) and knower (Kshetrajna) (i.e., of Matter with its evolutes and the Spirit) which I consider as true knowledge."
     },
     {
       "chapter": 13,
       "verse": 4,
       "verseEnd": null,
       "speaker": null,
-      "text": "The truth about the Kshetra and the Kshetrajna has been expounded by the seers in manifold ways; again, it has been separately stated in different Vedic chants and also in the conclusive and reasoned texts of the Brahmasutras."
+      "text": "What that Field (Kshetra) is and what is its nature, what are its modifications, and from what causes what effects have arisen, and also who its knower (Kshetrajna) is, and what is His glory-hear all this from Me in brief."
     },
     {
       "chapter": 13,
       "verse": 5,
       "verseEnd": null,
       "speaker": null,
-      "text": "The five elements, the ego, the intellect, the Unmanifest (Primordial Matter), the ten organs of perception and action, the mind, and the five objects of sense (sound, touch, colour, taste and smell)."
+      "text": "The truth about the Kshetra and the Kshetrajna has been expounded by the seers in manifold ways; again, it has been separately stated in different Vedic chants and also in the conclusive and reasoned texts of the Brahmasutras."
     },
     {
       "chapter": 13,
       "verse": 6,
       "verseEnd": null,
       "speaker": null,
-      "text": "Also desire, aversion, pleasure, pain, the physical body, consciousness, firmness: thus is the Kshetra, with its evolutes, briefly stated."
+      "text": "The five elements, the ego, the intellect, the Unmanifest (Primordial Matter), the ten organs of perception and action, the mind, and the five objects of sense (sound, touch, colour, taste and smell)."
     },
     {
       "chapter": 13,
       "verse": 7,
       "verseEnd": null,
       "speaker": null,
-      "text": "Absence of pride, freedom from hypocrisy, non-violence, forbearance, uprightness of speech and mind etc., devout service of the preceptor, internal and external purity, steadfastness of mind and control of body, mind and the senses;"
+      "text": "Also desire, aversion, pleasure, pain, the physical body, consciousness, firmness: thus is the Kshetra, with its evolutes, briefly stated."
     },
     {
       "chapter": 13,
       "verse": 8,
       "verseEnd": null,
       "speaker": null,
-      "text": "Dispassion towards the objects of enjoyment of this world and the next, and also absence of egotism, pondering again and again on the pain and evils inherent in birth, death, old age and disease;"
+      "text": "Absence of pride, freedom from hypocrisy, non-violence, forbearance, uprightness of speech and mind etc., devout service of the preceptor, internal and external purity, steadfastness of mind and control of body, mind and the senses;"
     },
     {
       "chapter": 13,
       "verse": 9,
       "verseEnd": null,
       "speaker": null,
-      "text": "Absence of attachment and the sense of mineness in respect of son, wife, home etc., and constant equipoise of mind both in favourable and unfavourable circumstances;"
+      "text": "Dispassion towards the objects of enjoyment of this world and the next, and also absence of egotism, pondering again and again on the pain and evils inherent in birth, death, old age and disease;"
     },
     {
       "chapter": 13,
       "verse": 10,
       "verseEnd": null,
       "speaker": null,
-      "text": "Unflinching devotion to Me through exclusive attachment, living in secluded and holy places, and finding no delight in the company of worldly people;"
+      "text": "Absence of attachment and the sense of mineness in respect of son, wife, home etc., and constant equipoise of mind both in favourable and unfavourable circumstances;"
     },
     {
       "chapter": 13,
       "verse": 11,
       "verseEnd": null,
       "speaker": null,
-      "text": "Constancy in self-knowledge and seeing God as the object of true knowledge-all this is declared as knowledge, and what is contrary to this is called ignorance."
+      "text": "Unflinching devotion to Me through exclusive attachment, living in secluded and holy places, and finding no delight in the company of worldly people;"
     },
     {
       "chapter": 13,
       "verse": 12,
       "verseEnd": null,
       "speaker": null,
-      "text": "I shall speak to you at length about that which ought to be known, and knowing which one attains supreme Bliss. That supreme Brahma, who is the lord of beginningless entities, is said to be neither Sat (being) nor Asat (non-being)."
+      "text": "Constancy in self-knowledge and seeing God as the object of true knowledge-all this is declared as knowledge, and what is contrary to this is called ignorance."
     },
     {
       "chapter": 13,
       "verse": 13,
       "verseEnd": null,
       "speaker": null,
-      "text": "It has hands and feet on all sides, eyes, head and mouth in all directions, and ears all-round; for it stands pervading all in the universe."
+      "text": "I shall speak to you at length about that which ought to be known, and knowing which one attains supreme Bliss. That supreme Brahma, who is the lord of beginningless entities, is said to be neither Sat (being) nor Asat (non-being)."
     },
     {
       "chapter": 13,
       "verse": 14,
       "verseEnd": null,
       "speaker": null,
-      "text": "Though perceiving all sense-objects, it is really speaking devoid of all senses. Nay, though unattached, it is the sustainer of all nonetheless; and though attributeless, it is the enjoyer of Gunas, the three modes of Prakriti."
+      "text": "It has hands and feet on all sides, eyes, head and mouth in all directions, and ears all-round; for it stands pervading all in the universe."
     },
     {
       "chapter": 13,
       "verse": 15,
       "verseEnd": null,
       "speaker": null,
-      "text": "It exists without and within all beings, and constitutes the animate and inanimate creation as well. And by reason of its subtlety, it is incomprehensible; it is close at hand and stands afar too."
+      "text": "Though perceiving all sense-objects, it is really speaking devoid of all senses. Nay, though unattached, it is the sustainer of all nonetheless; and though attributeless, it is the enjoyer of Gunas, the three modes of Prakriti."
     },
     {
       "chapter": 13,
       "verse": 16,
       "verseEnd": null,
       "speaker": null,
-      "text": "Though integral like space in its undivided aspect, it appears divided as it were, in all animate and inanimate beings. And that Godhead, which is the only object worth knowing, is the sustainer of beings (as Vishnu), the destroyer (as Rudra) and the creator of all (as Brahma)."
+      "text": "It exists without and within all beings, and constitutes the animate and inanimate creation as well. And by reason of its subtlety, it is incomprehensible; it is close at hand and stands afar too."
     },
     {
       "chapter": 13,
       "verse": 17,
       "verseEnd": null,
       "speaker": null,
-      "text": "That supreme Brahma is said to be the light of all lights and entirely beyond My. That godhead is knowledge itself, worth knowing, and worth attaining through real wisdom, and is particularly abiding in the hearts of all."
+      "text": "Though integral like space in its undivided aspect, it appears divided as it were, in all animate and inanimate beings. And that Godhead, which is the only object worth knowing, is the sustainer of beings (as Vishnu), the destroyer (as Rudra) and the creator of all (as Brahma)."
     },
     {
       "chapter": 13,
       "verse": 18,
       "verseEnd": null,
       "speaker": null,
-      "text": "Thus the truth of the Kshetra and knowledge, as well as of the object worth knowing, i.e., God has been briefly discussed; knowing this in reality, My devotee enters into My being."
+      "text": "That supreme Brahma is said to be the light of all lights and entirely beyond My. That godhead is knowledge itself, worth knowing, and worth attaining through real wisdom, and is particularly abiding in the hearts of all."
     },
     {
       "chapter": 13,
       "verse": 19,
       "verseEnd": null,
       "speaker": null,
-      "text": "Prakriti and Purusha, know both these as beginningless. And know all modifications such as likes and dislikes etc., and all objects constituted of the three Gunas as born of Prakriti."
+      "text": "Thus the truth of the Kshetra and knowledge, as well as of the object worth knowing, i.e., God has been briefly discussed; knowing this in reality, My devotee enters into My being."
     },
     {
       "chapter": 13,
       "verse": 20,
       "verseEnd": null,
       "speaker": null,
-      "text": "Prakriti is said to be responsible for bringing forth the evolutes and the instruments; while the individual soul is declared to be responsible for the experience of joys and sorrows."
+      "text": "Prakriti and Purusha, know both these as beginningless. And know all modifications such as likes and dislikes etc., and all objects constituted of the three Gunas as born of Prakriti."
     },
     {
       "chapter": 13,
       "verse": 21,
       "verseEnd": null,
       "speaker": null,
-      "text": "Only the Purusha in association with Prakriti experiences objects of the nature of the three Gunas evolved from Prakriti and it is attachment with these Gunas that is responsible for the birth of this soul in good and evil wombs."
+      "text": "Prakriti is said to be responsible for bringing forth the evolutes and the instruments; while the individual soul is declared to be responsible for the experience of joys and sorrows."
     },
     {
       "chapter": 13,
       "verse": 22,
       "verseEnd": null,
       "speaker": null,
-      "text": "The Spirit dwelling in this body, is really the same as the Supreme. He has been spoken of as the Witness, the true Guide, the Sustainer of all, the Experiencer (as the embodied soul), the Overlord and the Absolute as well."
+      "text": "Only the Purusha in association with Prakriti experiences objects of the nature of the three Gunas evolved from Prakriti and it is attachment with these Gunas that is responsible for the birth of this soul in good and evil wombs."
     },
     {
       "chapter": 13,
       "verse": 23,
       "verseEnd": null,
       "speaker": null,
-      "text": "He who thus knows the Purusha (Spirit) and Prakriti (Nature) together with the Gunas-even though performing his duties in everyway, is not born again."
+      "text": "The Spirit dwelling in this body, is really the same as the Supreme. He has been spoken of as the Witness, the true Guide, the Sustainer of all, the Experiencer (as the embodied soul), the Overlord and the Absolute as well."
     },
     {
       "chapter": 13,
       "verse": 24,
       "verseEnd": null,
       "speaker": null,
-      "text": "Some by meditation behold the supreme Spirit in the heart with the help of their refined and sharp intellect; others realize it through the discipline of Knowledge, and still others, through the discipline of Action, i.e., Karmayoga."
+      "text": "He who thus knows the Purusha (Spirit) and Prakriti (Nature) together with the Gunas-even though performing his duties in everyway, is not born again."
     },
     {
       "chapter": 13,
       "verse": 25,
       "verseEnd": null,
       "speaker": null,
-      "text": "Other dull-witted persons, however, not knowing thus, worship even as they have heard from others; and even those who are thus devoted to what they have heard, are able to cross the ocean of mundane existence in the shape of death."
+      "text": "Some by meditation behold the supreme Spirit in the heart with the help of their refined and sharp intellect; others realize it through the discipline of Knowledge, and still others, through the discipline of Action, i.e., Karmayoga."
     },
     {
       "chapter": 13,
       "verse": 26,
       "verseEnd": null,
       "speaker": null,
-      "text": "Arjuna, whatsoever being, the moving or unmoving, is born, know it as emanated through the union of Kshetra (Matter) and the Kshetrajna (Spirit)."
+      "text": "Other dull-witted persons, however, not knowing thus, worship even as they have heard from others; and even those who are thus devoted to what they have heard, are able to cross the ocean of mundane existence in the shape of death."
     },
     {
       "chapter": 13,
       "verse": 27,
       "verseEnd": null,
       "speaker": null,
-      "text": "He alone truly sees, who sees the supreme Lord as imperishable and abiding equally in all perishable beings, both animate and inanimate."
+      "text": "Arjuna, whatsoever being, the moving or unmoving, is born, know it as emanated through the union of Kshetra (Matter) and the Kshetrajna (Spirit)."
     },
     {
       "chapter": 13,
       "verse": 28,
       "verseEnd": null,
       "speaker": null,
-      "text": "For, by seeing the Supreme Lord equally present in all, he does not kill the Self by himself, and thereby attains the supreme state."
+      "text": "He alone truly sees, who sees the supreme Lord as imperishable and abiding equally in all perishable beings, both animate and inanimate."
     },
     {
       "chapter": 13,
       "verse": 29,
       "verseEnd": null,
       "speaker": null,
-      "text": "He who sees that all actions are performed in everyway by nature (Prakriti) and the Self as the non-doer, he alone verily sees."
+      "text": "For, by seeing the Supreme Lord equally present in all, he does not kill the Self by himself, and thereby attains the supreme state."
     },
     {
       "chapter": 13,
       "verse": 30,
       "verseEnd": null,
       "speaker": null,
-      "text": "The moment man perceives the diversified existence of beings as rooted in the one supreme Spirit, and the spreading forth of all beings from the same, that very moment he attains Brahma (who is Truth, Consciousness and Bliss solidified)."
+      "text": "He who sees that all actions are performed in everyway by nature (Prakriti) and the Self as the non-doer, he alone verily sees."
     },
     {
       "chapter": 13,
       "verse": 31,
       "verseEnd": null,
       "speaker": null,
-      "text": "Arjuna, being without beginning and without attributes, this indestructible supreme Spirit, though dwelling in the body, in fact does nothing, nor gets tainted."
+      "text": "The moment man perceives the diversified existence of beings as rooted in the one supreme Spirit, and the spreading forth of all beings from the same, that very moment he attains Brahma (who is Truth, Consciousness and Bliss solidified)."
     },
     {
       "chapter": 13,
       "verse": 32,
       "verseEnd": null,
       "speaker": null,
-      "text": "As the all-pervading ether is not contaminated by reason of its subtlety, though permeating the body, the Self is not affected by the attributes of the body due to Its attributeless character."
+      "text": "Arjuna, being without beginning and without attributes, this indestructible supreme Spirit, though dwelling in the body, in fact does nothing, nor gets tainted."
     },
     {
       "chapter": 13,
       "verse": 33,
       "verseEnd": null,
       "speaker": null,
-      "text": "Arjuna, as the one sun illumines this entire universe, so the one tm (Spirit) illumines the whole Kshetra (Field)."
+      "text": "As the all-pervading ether is not contaminated by reason of its subtlety, though permeating the body, the Self is not affected by the attributes of the body due to Its attributeless character."
     },
     {
       "chapter": 13,
       "verse": 34,
+      "verseEnd": null,
+      "speaker": null,
+      "text": "Arjuna, as the one sun illumines this entire universe, so the one tm (Spirit) illumines the whole Kshetra (Field)."
+    },
+    {
+      "chapter": 13,
+      "verse": 35,
       "verseEnd": null,
       "speaker": null,
       "text": "Those who thus perceive with the eye of wisdom the difference between the Kshetra and Kshetrajna, and the phenomenon of liberation from Prakriti with her evolutes, reach the supreme eternal Spirit."
