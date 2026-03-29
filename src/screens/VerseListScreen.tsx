@@ -77,6 +77,7 @@ export function VerseListScreen() {
                 chapterId:    params.chapterId,
                 chapterTitle: params.chapterTitle,
                 verseNumber:  item.verse_number,
+                totalVerses:  rows.length,
               })
             }
             activeOpacity={0.6}

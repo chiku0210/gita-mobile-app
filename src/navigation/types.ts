@@ -11,6 +11,7 @@ export type RootStackParamList = {
     chapterId:    string;
     chapterTitle: string;
     verseNumber:  number;
+    totalVerses:  number;
   };
   Commentary: {
     verseId:       string;
