@@ -57,7 +57,8 @@ export function VerseListScreen() {
         onPress={() => nav.goBack()}
         activeOpacity={0.6}
       >
-        <Text style={[styles.backText, { color: colors.accent }]}>← Chapters</Text>
+        <Text style={[styles.backChevron, { color: colors.accent }]}>‹</Text>
+        <Text style={[styles.backLabel, { color: colors.muted }]}>Chapters</Text>
       </TouchableOpacity>
       <Text style={[styles.header, { color: colors.text }]}>
         Chapter {params.chapterNumber}
@@ -101,7 +102,24 @@ export function VerseListScreen() {
 const styles = StyleSheet.create({
   root:   { flex: 1 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  back:   { paddingHorizontal: Spacing.screenMargin, paddingTop: 52, paddingBottom: 8 },
+  back: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingTop: 52,
+    paddingBottom: 16,
+    paddingHorizontal: Spacing.screenMargin,
+  },
+  backChevron: {
+    fontSize: 22,
+    lineHeight: 26,
+    fontWeight: '300',
+    marginTop: -2,
+  },
+  backLabel: {
+    letterSpacing: 0.3,
+    ...Typography.ui,
+  },
   backText: { ...Typography.ui, fontSize: 14 },
   header: { ...Typography.chapterTitle, paddingHorizontal: Spacing.screenMargin, paddingTop: 8 },
   sub:    { ...Typography.ui, paddingHorizontal: Spacing.screenMargin, paddingTop: 4, paddingBottom: 20 },
