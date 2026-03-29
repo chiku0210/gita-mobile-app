@@ -42,6 +42,7 @@ export async function getTranslationsForVerse(verseId: string): Promise<Translat
 }
 
 // Returns the primary English translation for a verse (gambir preferred)
+// Used as fallback when translation_eng is not available on the verses row.
 export async function getPrimaryTranslation(verseId: string): Promise<string | null> {
   const preferred = ['gambir', 'siva', 'san', 'purohit'];
   const rows = await getTranslationsForVerse(verseId);
@@ -50,4 +51,18 @@ export async function getPrimaryTranslation(verseId: string): Promise<string | n
     if (row?.et) return row.et;
   }
   return rows.find((r) => r.et)?.et ?? null;
+}
+
+/**
+ * Returns the Gita Press English translation stored directly on the verse row.
+ * Seeded via scripts/migration/seed_translation_eng.mjs from the OCR JSON.
+ * Returns null when the column is not yet populated (e.g. Ch1 v26-29 edge case).
+ */
+export async function getGitaPressTranslation(verseId: string): Promise<string | null> {
+  const result = await getDb()
+    .select({ translation_eng: verses.translation_eng })
+    .from(verses)
+    .where(eq(verses.id, verseId))
+    .limit(1);
+  return result[0]?.translation_eng ?? null;
 }

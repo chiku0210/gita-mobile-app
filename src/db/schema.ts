@@ -14,12 +14,13 @@ export const chapters = sqliteTable('chapters', {
 });
 
 export const verses = sqliteTable('verses', {
-  id:             text('id').primaryKey(),
-  chapter_id:     text('chapter_id').notNull(),
-  verse_number:   integer('verse_number').notNull(),
-  text_sanskrit:  text('text_sanskrit').notNull(),
-  text_romanized: text('text_romanized'),
-  speaker:        text('speaker'),  // 'krishna' | 'arjuna' | 'sanjaya' | 'dhritarashtra'
+  id:              text('id').primaryKey(),
+  chapter_id:      text('chapter_id').notNull(),
+  verse_number:    integer('verse_number').notNull(),
+  text_sanskrit:   text('text_sanskrit').notNull(),
+  text_romanized:  text('text_romanized'),
+  speaker:         text('speaker'),  // 'krishna' | 'arjuna' | 'sanjaya' | 'dhritarashtra'
+  translation_eng: text('translation_eng'), // Gita Press English translation (seeded from OCR)
 });
 
 export const translations = sqliteTable('translations', {
