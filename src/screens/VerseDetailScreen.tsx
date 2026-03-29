@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, StatusBar, ActivityIndicator,
   ImageBackground, BackHandler, useWindowDimensions,
+  PanResponder,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
@@ -21,16 +22,27 @@ type Nav   = NativeStackNavigationProp<RootStackParamList, 'VerseDetail'>;
 type Route = RouteProp<RootStackParamList, 'VerseDetail'>;
 
 const SPEAKER_IMAGE_HEIGHT = 650;
-const LINE_HEIGHT_ESTIMATE = 24; // Tune this to match your actual translation text line height
+const LINE_HEIGHT_ESTIMATE = 24;
+
+/**
+ * Minimum horizontal distance (px) a swipe must travel to trigger navigation.
+ * Keeping it at 60 avoids accidental triggers while still feeling snappy.
+ */
+const SWIPE_THRESHOLD = 60;
+
+/**
+ * Max vertical drift (px) allowed before we decide the gesture is a scroll,
+ * not a horizontal swipe. Prevents the swipe handler from eating scroll events.
+ */
+const SWIPE_VERTICAL_LIMIT = 80;
 
 export function VerseDetailScreen() {
   const colors = useTheme();
   const nav    = useNavigation<Nav>();
   const { params } = useRoute<Route>();
 
-  // Calculate a dynamic horizon line based on the exact device height
   const { height: screenHeight } = useWindowDimensions();
-  const HORIZON_LINE = screenHeight * 0.40; // Tune between 0.40 and 0.50 for the perfect image crop
+  const HORIZON_LINE = screenHeight * 0.40;
 
   const chapterNumber = parseInt(params.chapterId.replace('ch_', ''), 10);
   const verseNumber   = params.verseNumber;
@@ -39,9 +51,10 @@ export function VerseDetailScreen() {
   const [verse, setVerse]             = useState<Verse | null>(null);
   const [translation, setTranslation] = useState<string | null>(null);
   const [loading, setLoading]         = useState(true);
-  
-  // Track layout state for the dynamic background
   const [translationLines, setTranslationLines] = useState<number | null>(null);
+
+  // Guard against triggering multiple navigations for a single swipe gesture
+  const swipeLocked = useRef(false);
 
   const verseDetailCount = useNavigationState(
     state => state.routes.filter(r => r.name === 'VerseDetail').length
@@ -58,9 +71,9 @@ export function VerseDetailScreen() {
   );
 
   useEffect(() => {
-    // Reset layout state on new verse load
     setTranslationLines(null);
     setLoading(true);
+    swipeLocked.current = false;
 
     async function load() {
       const [v, t] = await Promise.all([
@@ -105,6 +118,53 @@ export function VerseDetailScreen() {
   const canGoPrev = verseNumber > 1;
   const canGoNext = verseNumber < totalVerses;
 
+  /**
+   * PanResponder that detects left/right swipes and maps them to verse navigation.
+   *
+   * Direction semantics (matches physical intuition of a book):
+   *   Swipe LEFT  (dx < -THRESHOLD) → next verse  (right page turn)
+   *   Swipe RIGHT (dx >  THRESHOLD) → prev verse  (left page turn)
+   *
+   * The responder only claims the gesture when horizontal movement clearly
+   * dominates vertical movement, so the ScrollView below keeps working.
+   */
+  const panResponder = useRef(
+    PanResponder.create({
+      // Offer to become the responder on every touch move
+      onMoveShouldSetPanResponder: (_evt, gestureState) => {
+        const { dx, dy } = gestureState;
+        return Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.5;
+      },
+
+      onPanResponderRelease: (_evt, gestureState) => {
+        const { dx, dy } = gestureState;
+
+        // Reject near-vertical or tiny gestures
+        if (Math.abs(dy) > SWIPE_VERTICAL_LIMIT || Math.abs(dx) < SWIPE_THRESHOLD) return;
+
+        // Prevent double-fires on the same swipe
+        if (swipeLocked.current) return;
+        swipeLocked.current = true;
+
+        if (dx < 0 && canGoNext) {
+          // Left swipe → go to next verse
+          navigateTo(verseNumber + 1, 'next');
+        } else if (dx > 0 && canGoPrev) {
+          // Right swipe → go to previous verse
+          navigateTo(verseNumber - 1, 'prev');
+        } else {
+          // No valid target; release the lock immediately
+          swipeLocked.current = false;
+        }
+      },
+
+      // Release lock if the gesture is cancelled (e.g. multi-touch)
+      onPanResponderTerminate: () => {
+        swipeLocked.current = false;
+      },
+    })
+  ).current;
+
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
@@ -125,16 +185,16 @@ export function VerseDetailScreen() {
   const speakerImage = getSpeakerImage(verse.speaker);
   const speakerLabel = SPEAKER_LABELS[speakerKey] ?? speakerKey;
 
-  // Layout Math
   const linesCount = translationLines || 0;
   const extraLines = Math.max(0, linesCount - 4);
   const dynamicImageHeight = Math.max(250, SPEAKER_IMAGE_HEIGHT - (extraLines * LINE_HEIGHT_ESTIMATE));
-  
-  // Prevent visual flash while calculating
+
   const isLayoutReady = !translation || translationLines !== null;
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    // Attach the PanResponder handlers to the root container so the entire
+    // screen surface is swipeable, including the image area at the bottom.
+    <View style={[styles.root, { backgroundColor: colors.background }]} {...panResponder.panHandlers}>
       <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
 
       {/* ── LAYER 1: Fixed Background Image ── */}
@@ -147,12 +207,15 @@ export function VerseDetailScreen() {
       {/* ── LAYER 2: Scrollable Content & Dynamic Overlay Mask ── */}
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ flexGrow: 1 }} 
+        contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
+        // Allow horizontal pan events to bubble up to the root PanResponder
+        // when the user clearly intends a horizontal swipe.
+        scrollEventThrottle={16}
       >
         {/* SOLID MASK: Grows with text, but never shrinks above the horizon */}
         <View style={{ backgroundColor: colors.background, minHeight: HORIZON_LINE }}>
-          
+
           {/* Header */}
           <View style={styles.topBar}>
             <TouchableOpacity
@@ -239,7 +302,7 @@ export function VerseDetailScreen() {
 const styles = StyleSheet.create({
   root:   { flex: 1 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  
+
   absoluteSpeakerImage: {
     position: 'absolute',
     bottom: 0,
@@ -248,18 +311,18 @@ const styles = StyleSheet.create({
     width: '100%',
     height: SPEAKER_IMAGE_HEIGHT,
   },
-  
+
   dynamicGradient: {
-    height: 180, // Adjust this value to make the fade longer or sharper
+    height: 180,
     width: '100%',
   },
 
   speakerLabelContainer: {
-    flex: 1, // Pushes the label to the bottom of the scroll view
+    flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: Spacing.screenMargin,
     paddingBottom: 20,
-    minHeight: 250, // Ensures there's always space to view the art, even on long texts
+    minHeight: 250,
   },
 
   topBar: {
@@ -313,6 +376,7 @@ const styles = StyleSheet.create({
     height: SPEAKER_IMAGE_HEIGHT,
     justifyContent: 'flex-end',
   },
+
   speakerName: {
     ...Typography.ui,
     fontSize: 11,
@@ -347,5 +411,4 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 6,
   },
-
 });
