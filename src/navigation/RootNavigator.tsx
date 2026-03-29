@@ -26,7 +26,20 @@ export function RootNavigator() {
         <Stack.Screen name="Landing"     component={LandingScreen} />
         <Stack.Screen name="ChapterList" component={ChapterListScreen} />
         <Stack.Screen name="VerseList"   component={VerseListScreen} />
-        <Stack.Screen name="VerseDetail" component={VerseDetailScreen} />
+        {/*
+          animation: 'none' here is intentional.
+          VerseDetail → VerseDetail transitions happen via swipe gestures and
+          arrow taps. Running a slide animation on top of a user-initiated swipe
+          creates a ~300-400ms lag that feels broken. 'none' gives an instant
+          content swap — the correct feel for paging through verses.
+          All other screens entering VerseDetail still use slide_from_right
+          (inherited from the navigator default above).
+        */}
+        <Stack.Screen
+          name="VerseDetail"
+          component={VerseDetailScreen}
+          options={{ animation: 'none' }}
+        />
         <Stack.Screen
           name="Commentary"
           component={CommentaryScreen}
