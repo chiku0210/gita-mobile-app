@@ -1,7 +1,7 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 export const chapters = sqliteTable('chapters', {
-  id:                   text('id').primaryKey(),              // "ch_1"
+  id:                   text('id').primaryKey(),
   chapter_number:       integer('chapter_number').notNull(),
   verses_count:         integer('verses_count').notNull(),
   name_sanskrit:        text('name_sanskrit').notNull(),
@@ -14,26 +14,26 @@ export const chapters = sqliteTable('chapters', {
 });
 
 export const verses = sqliteTable('verses', {
-  id:             text('id').primaryKey(),                    // "1_1"
-  chapter_id:     text('chapter_id').notNull(),               // FK → chapters.id
+  id:             text('id').primaryKey(),
+  chapter_id:     text('chapter_id').notNull(),
   verse_number:   integer('verse_number').notNull(),
   text_sanskrit:  text('text_sanskrit').notNull(),
   text_romanized: text('text_romanized'),
+  speaker:        text('speaker'),  // 'krishna' | 'arjuna' | 'sanjaya' | 'dhritarashtra'
 });
 
 export const translations = sqliteTable('translations', {
-  id:          text('id').primaryKey(),                       // "1_1_gambir"
-  verse_id:    text('verse_id').notNull(),                    // FK → verses.id
+  id:          text('id').primaryKey(),
+  verse_id:    text('verse_id').notNull(),
   author_code: text('author_code').notNull(),
   author_name: text('author_name').notNull(),
-  et:          text('et'),   // English Translation
-  ec:          text('ec'),   // English Commentary
-  ht:          text('ht'),   // Hindi Translation
-  hc:          text('hc'),   // Hindi Commentary
-  sc:          text('sc'),   // Sanskrit Commentary
+  et:          text('et'),
+  ec:          text('ec'),
+  ht:          text('ht'),
+  hc:          text('hc'),
+  sc:          text('sc'),
 });
 
-// Inferred types
 export type Chapter     = typeof chapters.$inferSelect;
 export type Verse       = typeof verses.$inferSelect;
 export type Translation = typeof translations.$inferSelect;
