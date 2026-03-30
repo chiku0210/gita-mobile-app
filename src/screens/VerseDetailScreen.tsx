@@ -1,24 +1,40 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, StatusBar, ActivityIndicator,
-  ImageBackground, BackHandler, useWindowDimensions,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  StatusBar,
+  ActivityIndicator,
+  ImageBackground,
+  BackHandler,
+  useWindowDimensions,
   PanResponder,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRoute, useNavigationState, useFocusEffect } from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  useNavigationState,
+  useFocusEffect,
+} from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackActions, CommonActions } from '@react-navigation/native';
 
 import { useTheme } from '../theme/useTheme';
 import { Typography, Spacing } from '../theme/tokens';
-import { getVerseById, getGitaPressTranslation, getPrimaryTranslation } from '../db/queries';
+import {
+  getVerseById,
+  getGitaPressTranslation,
+  getPrimaryTranslation,
+} from '../db/queries';
 import { getSpeakerImage, SPEAKER_LABELS } from '../theme/speakers';
 import type { Verse } from '../db/schema';
 import type { RootStackParamList } from '../navigation/types';
 
-type Nav   = NativeStackNavigationProp<RootStackParamList, 'VerseDetail'>;
+type Nav = NativeStackNavigationProp<RootStackParamList, 'VerseDetail'>;
 type Route = RouteProp<RootStackParamList, 'VerseDetail'>;
 
 const SPEAKER_IMAGE_HEIGHT = 650;
@@ -38,19 +54,19 @@ const SWIPE_VERTICAL_LIMIT = 80;
 
 export function VerseDetailScreen() {
   const colors = useTheme();
-  const nav    = useNavigation<Nav>();
+  const nav = useNavigation<Nav>();
   const { params } = useRoute<Route>();
 
   const { height: screenHeight } = useWindowDimensions();
-  const HORIZON_LINE = screenHeight * 0.40;
+  const HORIZON_LINE = screenHeight * 0.4;
 
   const chapterNumber = parseInt(params.chapterId.replace('ch_', ''), 10);
-  const verseNumber   = params.verseNumber;
-  const totalVerses   = params.totalVerses;
+  const verseNumber = params.verseNumber;
+  const totalVerses = params.totalVerses;
 
-  const [verse, setVerse]             = useState<Verse | null>(null);
+  const [verse, setVerse] = useState<Verse | null>(null);
   const [translation, setTranslation] = useState<string | null>(null);
-  const [loading, setLoading]         = useState(true);
+  const [loading, setLoading] = useState(true);
   const [translationLines, setTranslationLines] = useState<number | null>(null);
 
   // Guard against triggering multiple navigations for a single swipe gesture
@@ -62,10 +78,13 @@ export function VerseDetailScreen() {
 
   useFocusEffect(
     React.useCallback(() => {
-      const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
-        nav.dispatch(StackActions.pop(verseDetailCount));
-        return true;
-      });
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        () => {
+          nav.dispatch(StackActions.pop(verseDetailCount));
+          return true;
+        }
+      );
       return () => subscription.remove();
     }, [verseDetailCount])
   );
@@ -96,17 +115,17 @@ export function VerseDetailScreen() {
 
   function navigateTo(targetVerseNumber: number, direction: 'prev' | 'next') {
     const targetParams = {
-      verseId:      `${chapterNumber}_${targetVerseNumber}`,
-      chapterId:    params.chapterId,
+      verseId: `${chapterNumber}_${targetVerseNumber}`,
+      chapterId: params.chapterId,
       chapterTitle: params.chapterTitle,
-      verseNumber:  targetVerseNumber,
-      totalVerses:  totalVerses,
+      verseNumber: targetVerseNumber,
+      totalVerses: totalVerses,
     };
 
     if (direction === 'next') {
       nav.dispatch(StackActions.push('VerseDetail', targetParams));
     } else {
-      nav.dispatch((state) => {
+      nav.dispatch(state => {
         const withoutCurrent = state.routes.slice(0, -1);
         const newRoutes = [
           ...withoutCurrent,
@@ -148,7 +167,11 @@ export function VerseDetailScreen() {
         const { dx, dy } = gestureState;
 
         // Reject near-vertical or tiny gestures
-        if (Math.abs(dy) > SWIPE_VERTICAL_LIMIT || Math.abs(dx) < SWIPE_THRESHOLD) return;
+        if (
+          Math.abs(dy) > SWIPE_VERTICAL_LIMIT ||
+          Math.abs(dx) < SWIPE_THRESHOLD
+        )
+          return;
 
         // Prevent double-fires on the same swipe
         if (swipeLocked.current) return;
@@ -189,21 +212,31 @@ export function VerseDetailScreen() {
     );
   }
 
-  const speakerKey   = verse.speaker ?? 'krishna';
+  const speakerKey = verse.speaker ?? 'krishna';
   const speakerImage = getSpeakerImage(verse.speaker);
   const speakerLabel = SPEAKER_LABELS[speakerKey] ?? speakerKey;
 
   const linesCount = translationLines || 0;
   const extraLines = Math.max(0, linesCount - 4);
-  const dynamicImageHeight = Math.max(250, SPEAKER_IMAGE_HEIGHT - (extraLines * LINE_HEIGHT_ESTIMATE));
+  const dynamicImageHeight = Math.max(
+    250,
+    SPEAKER_IMAGE_HEIGHT - extraLines * LINE_HEIGHT_ESTIMATE
+  );
 
   const isLayoutReady = !translation || translationLines !== null;
 
   return (
     // Attach the PanResponder handlers to the root container so the entire
     // screen surface is swipeable, including the image area at the bottom.
-    <View style={[styles.root, { backgroundColor: colors.background }]} {...panResponder.panHandlers}>
-      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+    <View
+      style={[styles.root, { backgroundColor: colors.background }]}
+      {...panResponder.panHandlers}
+    >
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
 
       {/* ── LAYER 1: Fixed Background Image ── */}
       <ImageBackground
@@ -222,8 +255,12 @@ export function VerseDetailScreen() {
         scrollEventThrottle={16}
       >
         {/* SOLID MASK: Grows with text, but never shrinks above the horizon */}
-        <View style={{ backgroundColor: colors.background, minHeight: HORIZON_LINE }}>
-
+        <View
+          style={{
+            backgroundColor: colors.background,
+            minHeight: HORIZON_LINE,
+          }}
+        >
           {/* Header */}
           <View style={styles.topBar}>
             <TouchableOpacity
@@ -232,8 +269,12 @@ export function VerseDetailScreen() {
               hitSlop={{ top: 50, bottom: 50, left: 50, right: 50 }}
             >
               <View style={styles.backBtn}>
-                <Text style={[styles.backChevron, { color: colors.accent }]}>‹</Text>
-                <Text style={[styles.backLabel, { color: colors.muted }]}>Verses</Text>
+                <Text style={[styles.backChevron, { color: colors.accent }]}>
+                  ‹
+                </Text>
+                <Text style={[styles.backLabel, { color: colors.muted }]}>
+                  Verses
+                </Text>
               </View>
             </TouchableOpacity>
             <Text style={[styles.verseLabel, { color: colors.muted }]}>
@@ -242,11 +283,12 @@ export function VerseDetailScreen() {
             <TouchableOpacity
               onPress={() =>
                 nav.navigate('Commentary', {
-                  verseId:       params.verseId,
+                  verseId: params.verseId,
                   chapterNumber: chapterNumber,
-                  verseNumber:   verseNumber,
+                  verseNumber: verseNumber,
                 })
               }
+              hitSlop={{ top: 50, bottom: 50, left: 50, right: 50 }}
               activeOpacity={0.6}
             >
               <Text style={styles.commentaryLink}>Commentary</Text>
@@ -263,7 +305,9 @@ export function VerseDetailScreen() {
                 {verse.text_romanized}
               </Text>
             ) : null}
-            <View style={[styles.divider, { backgroundColor: colors.border }]} />
+            <View
+              style={[styles.divider, { backgroundColor: colors.border }]}
+            />
             {translation ? (
               <Text style={[styles.translation, { color: colors.text }]}>
                 {translation}
@@ -308,7 +352,7 @@ export function VerseDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  root:   { flex: 1 },
+  root: { flex: 1 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 
   absoluteSpeakerImage: {
@@ -360,7 +404,7 @@ const styles = StyleSheet.create({
     ...Typography.ui,
   },
 
-  verseLabel:     { ...Typography.ui, fontSize: 13 },
+  verseLabel: { ...Typography.ui, fontSize: 13 },
 
   commentaryLink: { ...Typography.ui, fontSize: 13, color: '#D4A843' },
 
@@ -371,11 +415,11 @@ const styles = StyleSheet.create({
     gap: 24,
   },
 
-  sanskrit:    { ...Typography.sanskrit },
+  sanskrit: { ...Typography.sanskrit },
 
-  romanized:   { ...Typography.romanized },
+  romanized: { ...Typography.romanized },
 
-  divider:     { height: 1, marginVertical: 4 },
+  divider: { height: 1, marginVertical: 4 },
 
   translation: { ...Typography.translation },
 
@@ -402,7 +446,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  floatLeft:  { left: 0 },
+  floatLeft: { left: 0 },
 
   floatRight: { right: 0 },
 

@@ -4,7 +4,9 @@
     "slug": "gita-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "platforms": ["android"],
+    "platforms": [
+      "android"
+    ],
     "android": {
       "package": "com.nielless.gita",
       "adaptiveIcon": {
@@ -20,6 +22,13 @@
         }
       ]
     ],
-    "assetBundlePatterns": ["assets/**/*"]
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "080cb803-f3b6-4a2f-91c2-751a54c16204"
+      }
+    }
   }
 }
